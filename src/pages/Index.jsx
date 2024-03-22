@@ -6,18 +6,14 @@ const Index = () => {
   const [url, setUrl] = useState("");
   const [scrapedData, setScrapedData] = useState(null);
 
-  const handleScrape = () => {
-    // Simulated scraping logic
-    const data = {
-      title: "Example Scraped Page",
-      description: "This is a sample scraped page description.",
-      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHx3ZWIlMjBzY3JhcGluZ3xlbnwwfHx8fDE3MTExMjE5ODh8MA&ixlib=rb-4.0.3&q=80&w=1080",
-      links: [
-        { text: "Link 1", url: "https://example.com/link1" },
-        { text: "Link 2", url: "https://example.com/link2" },
-      ],
-    };
-    setScrapedData(data);
+  const handleScrape = async () => {
+    try {
+      const response = await fetch(`/api/scrape?url=${encodeURIComponent(url)}`);
+      const data = await response.json();
+      setScrapedData(data);
+    } catch (error) {
+      console.error("Failed to scrape the URL:", error);
+    }
   };
 
   return (
